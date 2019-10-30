@@ -1,8 +1,24 @@
-# Roastr
-## Project Members
-* Ryan Wiener
-* Richa Wadaskar
-* Jake Bliss
-* Jake Guida
-## Description
-A social media web application where users can roast each other.
+# README
+
+This README would normally document whatever steps are necessary to get the
+application up and running.
+
+Things you may want to cover:
+
+* Ruby version
+
+* System dependencies
+
+* Configuration
+
+* Database creation
+
+* Database initialization
+
+* How to run the test suite
+
+* Services (job queues, cache servers, search engines, etc.)
+
+* Deployment instructions
+
+* ...

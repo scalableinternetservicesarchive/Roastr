@@ -1,11 +1,10 @@
-FROM ruby:2.6
-RUN apt-get update -qq && apt-get install -y nodejs
-RUN mkdir /app
+FROM ruby
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add \
+  && echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && apt-get install -y nodejs yarn
 WORKDIR /app
-COPY Gemfile /app/Gemfile
-COPY Gemfile.lock /app/Gemfile.lock
+COPY Gemfile Gemfile.lock /app/
 RUN bundle install
-RUN rm -f /myapp/tmp/pids/server.pid
 
 # Start the main process.
-CMD ["rails", "server", "-b", "0.0.0.0"]
+CMD ["rails", "server", "-p", "3000", "-b", "0.0.0.0"]
