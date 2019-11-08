@@ -15,7 +15,7 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
-        <td><%= user.profile_pic %></td>
+        <td><%= image_tag user.profile_pic, :alt => 'Profile Pic' %></td>
         <td><%= user.username %></td>
         <td><%= user.password %></td>
         <td><%= link_to 'Show', user %></td>
