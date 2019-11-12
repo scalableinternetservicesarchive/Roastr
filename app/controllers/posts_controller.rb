@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all
+    @posts = Post.all.order("created_at DESC")
   end
 
   # GET /posts/1
@@ -15,6 +15,7 @@ class PostsController < ApplicationController
   # GET /posts/new
   def new
     @post = Post.new
+    @comment = Comment.new(post_id: params[:post_id])
   end
 
   # GET /posts/1/edit
@@ -60,6 +61,12 @@ class PostsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  # def get_post_comments(post: )
+  #   @comments = Comment.all
+  #
+  #   # sort through to only get the
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.
