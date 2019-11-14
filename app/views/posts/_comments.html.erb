@@ -1,7 +1,0 @@
-<% @comments.each do |comment| %>
-    <p><%= comment.user_id %></p>
-    <p><%= comment.post_id %></p>
-    <p><%= comment.comment %></p>
-    <p><%= link_to 'Edit', edit_comment_path(comment) %></p>
-    <p><%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %></p>
-<% end %>

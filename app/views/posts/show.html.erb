@@ -17,11 +17,23 @@
 
 <p>
   <strong>Comments:</strong>
+  <%= render 'showcomments', post: @post %>
 </p>
 
+<%= form_with scope: :comment, url: comments_path(@comments), local: true do |form| %>
+  <div class="field">
+    <%= form.hidden_field :post_id, value: @post.id %>
+  </div>
 
+  <div class="field">
+    <%= form.label :comment %>
+    <%= form.text_area :comment %>
+  </div>
 
-<%= link_to "Add Comment", new_comment_path(post_id: @post.id) %>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
 
 <%= link_to 'Edit', edit_post_path(@post) %> |
 <%= link_to 'Back', posts_path %>

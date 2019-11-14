@@ -5,17 +5,18 @@ class PostsController < ApplicationController
   # GET /posts.json
   def index
     @posts = Post.all.order("created_at DESC")
+
   end
 
   # GET /posts/1
   # GET /posts/1.json
   def show
+    @comments = Comment.where(post_id = params[:post_id])
   end
 
   # GET /posts/new
   def new
     @post = Post.new
-    @comment = Comment.new(post_id: params[:post_id])
   end
 
   # GET /posts/1/edit
@@ -62,12 +63,6 @@ class PostsController < ApplicationController
     end
   end
 
-  # def get_post_comments(post: )
-  #   @comments = Comment.all
-  #
-  #   # sort through to only get the
-  # end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
@@ -76,10 +71,6 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      p = params.require(:post).permit(:image, :caption)
-      if current_user
-        p[:user_id] = current_user.id
-      end
-      return p
+      params.require(:post).permit(:image, :caption, :user_id)
     end
 end

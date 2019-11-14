@@ -25,12 +25,9 @@ class CommentsController < ApplicationController
 
   # POST /comments
   # POST /comments.json
-  # def create
-  #   @comment = Comment.new(comment_params)
-  #
   #   respond_to do |format|
   #     if @comment.save
-  #       format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
+  #       format.html { redirect_to post_path(@post_id), notice: 'Comment was successfully created.' }
   #       format.json { render :show, status: :created, location: @comment }
   #     else
   #       format.html { render :new }
@@ -40,12 +37,9 @@ class CommentsController < ApplicationController
   # end
 
   def create
-    @post = Post.find(params[:comment][:post_id])
-    @comment = @post.comments.create(comment_params)
-    # @comment.post_id = Post.find(params[:post_id])
-    # @comment.user_id = current_user.id #or whatever is you session name
+    @comment = Comment.new(comment_params)
     if @comment.save
-      redirect_to post_path(@post)
+      redirect_to post_path(@comment.post_id)
     else
       flash.now[:danger] = "error"
     end
@@ -57,7 +51,7 @@ class CommentsController < ApplicationController
   def update
     respond_to do |format|
       if @comment.update(comment_params)
-        format.html { redirect_to @comment, notice: 'Comment was successfully updated.' }
+        format.html { redirect_to post_path(@comment.post_id), notice: 'Comment was successfully updated.' }
         format.json { render :show, status: :ok, location: @comment }
       else
         format.html { render :edit }
@@ -70,7 +64,8 @@ class CommentsController < ApplicationController
   # DELETE /comments/1.json
   def destroy
     @comment.destroy
-    redirect_to post_path(@post)
+    redirect_to post_path(@comment.post_id)
+
 
     # respond_to do |format|
     #   format.html { redirect_to comments_url, notice: 'Comment was successfully destroyed.' }
@@ -86,12 +81,11 @@ class CommentsController < ApplicationController
 
     def set_post
       @post_id = params[:post_id]
-      # @post = Posts.find(params[:post_id])
     end
 
-    # def set_user
-    #   @user = User.find(params[:user_id])
-    # end
+    def set_user
+      @user = User.find(params[:user_id])
+    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
