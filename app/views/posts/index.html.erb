@@ -14,10 +14,10 @@
 
   <tbody>
     <% @posts.each do |post| %>
-      <!-- Inefficient code right here. Fix later and observe performance difference -->
       <tr>
         <td><%= image_tag post.image, :alt => "Post Image" %></td>
         <td><%= post.caption %></td>
+        <!-- Inefficient code right here. Fix later and observe performance difference -->
         <% if post.user_id and post.user_id > 0 %>
           <% user = User.find(post.user_id) %>
           <td><%= link_to user.username, user %></td>
