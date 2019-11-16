@@ -2,17 +2,12 @@
 
 <p>
   <strong>Profile pic:</strong>
-  <%= @user.profile_pic %>
+  <%= image_tag @user.profile_pic, :alt => "Profile Pic" %>
 </p>
 
 <p>
   <strong>Username:</strong>
   <%= @user.username %>
-</p>
-
-<p>
-  <strong>Password:</strong>
-  <%= @user.password %>
 </p>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
