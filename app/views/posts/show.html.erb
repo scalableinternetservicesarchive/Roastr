@@ -27,11 +27,15 @@
 
   <div class="field">
     <%= form.label :comment %>
-    <%= form.text_area :comment %>
+    <% if current_user %>
+      <%= form.text_area :comment %>
+    <% else %>
+      <%= form.text_area :comment, :readonly => true, placeholder: "Please log in to comment", :class => 'textArea'%>
+    <% end %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Add Comment" %>
   </div>
 <% end %>
 

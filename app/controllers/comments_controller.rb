@@ -6,7 +6,12 @@ class CommentsController < ApplicationController
   # GET /comments
   # GET /comments.json
   def index
-    @comments = Comment.all
+    # if the current user exists, then
+    puts "Session user"
+    puts session[:user_id].class
+    if current_user
+      @comments = Comment.where(user_id: session[:user_id])
+    end
   end
 
   # GET /comments/1
@@ -40,8 +45,6 @@ class CommentsController < ApplicationController
     @comment = Comment.new(comment_params)
     if @comment.save
       redirect_to post_path(@comment.post_id)
-    else
-      flash.now[:danger] = "error"
     end
   end
 
