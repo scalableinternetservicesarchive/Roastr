@@ -2,7 +2,7 @@
 
 <p>
   <strong>Profile pic:</strong>
-  <%= @user.profile_pic %>
+  <%= image_tag @user.profile_pic, :alt => "Profile Pic" %>
 </p>
 
 <p>
@@ -10,10 +10,29 @@
   <%= @user.username %>
 </p>
 
-<p>
-  <strong>Password:</strong>
-  <%= @user.password %>
-</p>
-
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
+
+<h1>Posts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Caption</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @posts.each do |post| %>
+      <tr>
+        <td><%= image_tag post.image, :alt => "Post Image" %></td>
+        <td><%= post.caption %></td>
+        <td><%= link_to 'Show', post %></td>
+        <td><%= link_to 'Edit', edit_post_path(post) %></td>
+        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

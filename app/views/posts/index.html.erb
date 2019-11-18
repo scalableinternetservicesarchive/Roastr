@@ -17,7 +17,13 @@
       <tr>
         <td><%= image_tag post.image, :alt => "Post Image" %></td>
         <td><%= post.caption %></td>
-        <td><%= post.user_id %></td>
+        <!-- Inefficient code right here. Fix later and observe performance difference -->
+        <% if post.user_id and post.user_id > 0 %>
+          <% user = User.find(post.user_id) %>
+          <td><%= link_to user.username, user %></td>
+        <% else %>
+          <td>Anonymous</td>
+        <% end %>
         <td><%= link_to 'Show', post %></td>
         <td><%= link_to 'Edit', edit_post_path(post) %></td>
         <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
