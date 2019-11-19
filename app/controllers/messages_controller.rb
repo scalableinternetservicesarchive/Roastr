@@ -4,7 +4,10 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
-    @messages = Message.all
+    puts session[:user_id].class
+    if current_user
+      @messages = Message.where(sender_id: session[:user_id]).or(Message.where(receiver_id: session[:user_id]))
+    end
   end
 
   # GET /messages/1
@@ -71,7 +74,7 @@ class MessagesController < ApplicationController
     def message_params
       p = params.require(:message).permit(:receiver_id, :body)
       if current_user
-        p[:sender_id] = current_user.id
+        p[:sender_id] = session[:user_id]
       end
       return p
     end
