@@ -59,7 +59,7 @@ class MessagesController < ApplicationController
     def message_params
       p = params.require(:message).permit(:receiver_id, :body)
       if current_user
-        p[:sender_id] = session[:user_id]
+        p[:sender_id] = current_user.id
       end
       return p
     end
