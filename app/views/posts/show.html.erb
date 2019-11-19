@@ -21,5 +21,29 @@
   <% end %>
 </p>
 
-<%= link_to 'Edit', edit_post_path(@post) %> |
+<p>
+  <strong>Comments:</strong>
+  <%= render 'showcomments', post: @post %>
+</p>
+
+<%= form_with scope: :comment, url: comments_path(@comments), local: true do |form| %>
+  <div class="field">
+    <%= form.hidden_field :post_id, value: @post.id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :comment %>
+    <% if current_user %>
+      <%= form.text_area :comment %>
+    <% else %>
+      <%= form.text_area :comment, :readonly => true, placeholder: "Please log in to comment", :class => 'textArea'%>
+    <% end %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Add Comment" %>
+  </div>
+<% end %>
+
+<%= link_to_if(current_user, 'Edit', edit_post_path(@post)){} %>
 <%= link_to 'Back', posts_path %>
