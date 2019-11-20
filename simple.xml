@@ -7,7 +7,7 @@
   </clients>
 
   <servers>
-    <server host="www.richa.qt8ymkzsu9.us-west-2.elasticbeanstalk.com" port="80" type="tcp"/>
+    <server host="testing.qt8ymkzsu9.us-west-2.elasticbeanstalk.com" port="80" type="tcp"/>
   </servers>
 
   <load>
@@ -15,9 +15,13 @@
       <users arrivalrate="1" unit="second"/>
     </arrivalphase>
 
-    <!-- <arrivalphase phase="2" duration="10" unit="second">
+    <arrivalphase phase="2" duration="10" unit="second">
       <users arrivalrate="2" unit="second"/>
-    </arrivalphase> -->
+    </arrivalphase>
+	
+    <arrivalphase phase="3" duration="10" unit="second">
+      <users arrivalrate="3" unit="second"/>
+    </arrivalphase>
   </load>
 
   <options>
@@ -53,7 +57,7 @@
 
       <request subst="true">
         <dyn_variable name="created_post_id" re="Location: http://.*/posts/(.*)\r"/>
-        <http url="/posts" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;post%5Bcaption%5D=post+2&amp;post%5Buser_id%5D=2"/>
+        <http url="/posts" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;post%5Bcaption%5D=post+2&amp;post%5Buser_id%5D=testuser"/>
       </request>
 
       <request subst="true">
@@ -71,13 +75,17 @@
         <http url="/messages/new" version="1.1" method="GET" />
       </request>
 
+      <setdynvars sourcetype="eval" code="fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(authenticity_token,DynVars),re:replace(Val,&quot;[+]&quot;,&quot;%2B&quot;,[global, {return,list}]) end.">
+        <var name="authenticity_token"/>
+      </setdynvars>
+
       <request subst="true">
-        <dyn_variable name="created_message_id" re="Location: http://.*/posts/(.*)\r"/>
-        <http url="/messages" version="1.1" method="POST" contents="authenticity_token=%%authenticity_token%%&amp;message%5Bsender_id%5D=person1&amp;message%5Breceiver_id%5D=person2&amp;message%5Bbody%5D=whatup"/>
+        <dyn_variable name="created_message_id" re="Location: http://.*/messages/(.*)\r"/>
+        <http url="/messages" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;message%5Breceiver_id%5D=testuser2&amp;message%5Bbody%5D=whatup"/>
       </request>
 
       <request subst="true">
-        <http url="/posts/%%_created_message_id%%"/>
+        <http url="/messages/%%_created_message_id%%"/>
       </request>
     </session>
 
@@ -99,7 +107,7 @@
 
  <request subst="true">
         <dyn_variable name="created_comment_id" re="Location: http://.*/comments/(.*)\r"/>
-	<http url="/comments" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;comment%5Buser_id%5D=person1&amp;comment%5Bpost_id%5D=1&amp;comment%5Bcomment%5D=testing_comment"/>
+	<http url="/comments" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;comment%5Buser_id%5D=testuser&amp;comment%5Bpost_id%5D=1&amp;comment%5Bcomment%5D=testing_comment"/>
      </request>
 
       <request subst="true">
@@ -150,7 +158,7 @@
       </setdynvars>
 
       <request subst="true">	
-        <http url="/sessions" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;username=Jake&amp;password=password"/>
+        <http url="/sessions" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;username=testuser&amp;password=password"/>
       </request>
     </session>
   </sessions>
