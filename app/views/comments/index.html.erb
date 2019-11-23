@@ -16,7 +16,12 @@
     <% if @comments != nil %>
       <% @comments.each do |comment| %>
         <tr>
-          <td><%= comment.user_id %></td>
+          <% if comment.user_id and comment.user_id > 0 %>
+            <% user = User.find(comment.user_id) %>
+            <td><%= link_to user.username, user %></td>
+          <% else %>
+            <td>Anonymous</td>
+          <% end %>
           <td><%= comment.post_id %></td>
           <td><%= comment.comment %></td>
           <td><%= link_to 'Show', post_path(comment.post_id) %></td>
