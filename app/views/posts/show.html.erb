@@ -13,9 +13,8 @@
 <p>
   <strong>User:</strong>
   <!-- Inefficient code right here. Fix later and observe performance difference -->
-  <% if @post.user_id and @post.user_id > 0 %>
-    <% user = User.find(@post.user_id) %>
-    <td><%= link_to user.username, user %></td>
+  <% if @user %>
+    <td><%= link_to @user.username, @user %></td>
   <% else %>
     <td>Anonymous</td>
   <% end %>

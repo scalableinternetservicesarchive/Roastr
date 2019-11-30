@@ -4,14 +4,18 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all.order("created_at DESC")
-
+    @posts = Post.left_outer_joins(:user).select('posts.*, users.username').order("posts.created_at DESC")
   end
 
   # GET /posts/1
   # GET /posts/1.json
   def show
-    @comments = Comment.where(post_id: @post.id)
+    if @post.user_id
+      @user = User.find(@post.user_id)
+    else
+      @user = nil
+    end
+    @comments = Comment.left_outer_joins(:user).select('comments.*, users.username').where(post_id: @post.id)
   end
 
   # GET /posts/new
