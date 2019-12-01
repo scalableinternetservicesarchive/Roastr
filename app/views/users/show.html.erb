@@ -2,7 +2,9 @@
 
 <p>
   <strong>Profile pic:</strong>
-  <%= image_tag @user.profile_pic, :alt => "Profile Pic" %>
+  <% if @user.profile_pic %>
+    <%= image_tag @user.profile_pic, :alt => "Profile Pic" %>
+  <% end %>
 </p>
 
 <p>

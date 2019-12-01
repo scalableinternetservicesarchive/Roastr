@@ -16,9 +16,8 @@
     <% if @comments != nil %>
       <% @comments.each do |comment| %>
         <tr>
-          <% if comment.user_id and comment.user_id > 0 %>
-            <% user = User.find(comment.user_id) %>
-            <td><%= link_to user.username, user %></td>
+          <% if current_user %>
+            <td><%= link_to current_user.username, current_user %></td>
           <% else %>
             <td>Anonymous</td>
           <% end %>

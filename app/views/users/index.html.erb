@@ -14,7 +14,11 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
-        <td><%= image_tag user.profile_pic, :alt => 'Profile Pic' %></td>
+        <td>
+          <% if user.profile_pic %>
+            <%= image_tag user.profile_pic, :alt => 'Profile Pic' %>
+          <% end %>
+        </td>
         <td><%= user.username %></td>
         <td><%= link_to 'Show', user %></td>
         <td><%= link_to 'Edit', edit_user_path(user) %></td>
