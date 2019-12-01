@@ -2,7 +2,9 @@
 
 <p>
   <strong>Image:</strong>
-  <%= image_tag @post.image, :alt => "Post Image" %>
+  <% if @post.image %>
+    <%= image_tag post.image, :alt => "Post Image" %>
+  <% end %>
 </p>
 
 <p>
@@ -12,7 +14,6 @@
 
 <p>
   <strong>User:</strong>
-  <!-- Inefficient code right here. Fix later and observe performance difference -->
   <% if @user %>
     <td><%= link_to @user.username, @user %></td>
   <% else %>

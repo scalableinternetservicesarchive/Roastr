@@ -15,7 +15,11 @@
   <tbody>
     <% @posts.each do |post| %>
       <tr>
-        <td><%= image_tag post.image, :alt => "Post Image" %></td>
+        <td>
+        <% if post.image %>
+          <%= image_tag post.image, :alt => "Post Image" %>
+        <% end %>
+        </td>
         <td><%= post.caption %></td>
         <!-- Inefficient code right here. Fix later and observe performance difference -->
         <% if post.username %>
