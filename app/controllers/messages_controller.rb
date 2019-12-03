@@ -12,11 +12,16 @@ class MessagesController < ApplicationController
   # GET /messages/1
   # GET /messages/1.json
   def show
+    @sender = User.find(@message.sender_id)
+    @receiver = User.find(@message.receiver_id)
   end
 
   # GET /messages/new
   def new
-    @message = Message.new
+    if current_user
+      @message = Message.new
+      @users = User.where('id != ?', current_user.id)
+    end
   end
 
   # GET /messages/1/edit

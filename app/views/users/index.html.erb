@@ -16,7 +16,7 @@
       <tr>
         <td>
           <% if user.profile_pic %>
-            <%= image_tag user.profile_pic, :alt => 'Profile Pic' %>
+            <%= image_tag user.profile_pic, alt: 'Profile Picture', class: "profilePicture" %>
           <% end %>
         </td>
         <td><%= user.username %></td>

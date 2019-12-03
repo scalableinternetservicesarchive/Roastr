@@ -17,7 +17,7 @@
       <tr>
         <td>
         <% if post.image %>
-          <%= image_tag post.image, :alt => "Post Image" %>
+          <%= image_tag post.image, alt: "Post Image", class: "postImage" %>
         <% end %>
         </td>
         <td><%= post.caption %></td>

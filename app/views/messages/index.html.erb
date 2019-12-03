@@ -19,8 +19,14 @@
     <% if @messages != nil %>
       <% @messages.each do |message| %>
         <tr>
-          <td><%= message.sender_id %></td>
-          <td><%= message.receiver_id %></td>
+          <td>
+            <% sender = User.find(message.sender_id) %>
+            <%= link_to sender.username, sender %>
+          </td>
+          <td>
+            <% receiver = User.find(message.receiver_id) %>
+            <%= link_to receiver.username, receiver %>
+          </td>
           <td><%= message.body %></td>
           <td><%= link_to 'Show', message %></td>
           <td><%= link_to 'Destroy', message, method: :delete, data: { confirm: 'Are you sure?' } %></td>

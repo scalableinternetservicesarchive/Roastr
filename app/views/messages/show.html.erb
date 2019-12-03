@@ -2,12 +2,12 @@
 
 <p>
   <strong>Sender:</strong>
-  <%= @message.sender_id %>
+  <%= link_to @sender.username, @sender %>
 </p>
 
 <p>
   <strong>Receiver:</strong>
-  <%= @message.receiver_id %>
+  <%= link_to @receiver.username, @receiver %>
 </p>
 
 <p>
