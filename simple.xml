@@ -159,12 +159,12 @@
 
     <session name="Commment on a post as an unauthenticated user" probability="5" type="ts_http">
       <request>
-        <http url="/comments" version="1.1" method="GET"/>
+        <http url="/posts" version="1.1" method="GET"/>
       </request>
 
       <request>
         <dyn_variable name="authenticity_token"/>
-        <http url="/comments/new" version="1.1" method="GET"/>
+        <http url="/posts/1" version="1.1" method="GET"/>
       </request>
 
       <setdynvars sourcetype="eval" code="fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(authenticity_token,DynVars),re:replace(Val,&quot;[+]&quot;,&quot;%2B&quot;,[global, {return,list}]) end.">
@@ -178,19 +178,20 @@
 	<http url="/comments" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;comment%5Bpost_id%5D=1&amp;comment%5Bcomment%5D=testing_comment"/>
      </request>
 
-      <request subst="true">
-        <http url="/comments/%%_created_comment_id%%"/>
-      </request>
+     <request>
+       <dyn_variable name="authenticity_token"/>
+       <http url="/posts/1" version="1.1" method="GET"/>
+     </request>
     </session>
 
     <session name="Commment on a post as an authenticated user" probability="5" type="ts_http">
       <request>
-        <http url="/comments" version="1.1" method="GET"/>
+        <http url="/posts" version="1.1" method="GET"/>
       </request>
 
       <request>
         <dyn_variable name="authenticity_token"/>
-        <http url="/comments/new" version="1.1" method="GET"/>
+        <http url="/posts/1" version="1.1" method="GET"/>
       </request>
 
       <setdynvars sourcetype="eval" code="fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(authenticity_token,DynVars),re:replace(Val,&quot;[+]&quot;,&quot;%2B&quot;,[global, {return,list}]) end.">
@@ -209,9 +210,10 @@
   <http url="/comments" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;comment%5Buser_id%5D=testuser&amp;comment%5Bpost_id%5D=1&amp;comment%5Bcomment%5D=testing_comment"/>
      </request>
 
-      <request subst="true">
-        <http url="/comments/%%_created_comment_id%%"/>
-      </request>
+     <request>
+       <dyn_variable name="authenticity_token"/>
+       <http url="/posts/1" version="1.1" method="GET"/>
+     </request>
     </session>
 
     <session name="New user sign up" probability="5" type="ts_http">
