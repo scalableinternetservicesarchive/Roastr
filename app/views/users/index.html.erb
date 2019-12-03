@@ -30,4 +30,6 @@
 
 <br>
 
-<%= link_to 'New User', new_user_path %>
+<% if !session[:user_id] %>
+  <%= link_to 'New User', new_user_path %>
+<% end %>
