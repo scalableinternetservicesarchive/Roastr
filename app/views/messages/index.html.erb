@@ -32,7 +32,7 @@
 
           <td>
             <% if current_user and current_user.id == message.sender_id %>
-              <%= link_to 'Destroy', message, method: :delete, data: { confirm: 'Are you sure?' } %>
+              <%= link_to 'Delete', message, method: :delete, data: { confirm: 'Are you sure?' } %>
             <% end %>
           </td>
         </tr>

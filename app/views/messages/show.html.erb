@@ -16,7 +16,7 @@
 </p>
 
 <% if current_user and current_user.id == @message.sender_id %>
-  <td><%= link_to 'Destroy', @message, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  <td><%= link_to 'Delete', @message, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   <br>
 <% end %>
 <%= link_to 'Back', messages_path %>
