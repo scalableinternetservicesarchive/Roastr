@@ -30,9 +30,15 @@
           <td><%= message.body %></td>
           <td><%= link_to 'Show', message %></td>
 
-          <% if current_user and current_user.id == message.sender_id %>
-            <td><%= link_to 'Destroy', message, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          <% end %>
+          <td>
+            <% require 'pp' %>
+            <% PP.pp current_user %>
+            <% PP.pp message %>
+            <% PP.pp current_user.id == message.sender_id %>
+            <% if current_user and current_user.id == message.sender_id %>
+              <%= link_to 'Destroy', message, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     <% end %>

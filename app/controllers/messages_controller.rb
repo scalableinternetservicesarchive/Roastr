@@ -47,6 +47,13 @@ class MessagesController < ApplicationController
   # DELETE /messages/1
   # DELETE /messages/1.json
   def destroy
+    if current_user == nil or current_user.id != @message.sender_id
+      respond_to do |format|
+          format.html { redirect_to posts_url, notice: 'You do not have the proper permissions to delete that post.' }
+          format.json { render json: {'error' => 'You do not have the proper permissions to delete that post.'} }
+      end
+      return
+    end
     @message.destroy
     respond_to do |format|
       format.html { redirect_to messages_url, notice: 'Message was successfully destroyed.' }
