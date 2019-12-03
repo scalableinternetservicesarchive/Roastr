@@ -19,11 +19,22 @@
     <% if @messages != nil %>
       <% @messages.each do |message| %>
         <tr>
-          <td><%= message.sender_id %></td>
-          <td><%= message.receiver_id %></td>
+          <td>
+            <% sender = User.find(message.sender_id) %>
+            <%= link_to sender.username, sender %>
+          </td>
+          <td>
+            <% receiver = User.find(message.receiver_id) %>
+            <%= link_to receiver.username, receiver %>
+          </td>
           <td><%= message.body %></td>
           <td><%= link_to 'Show', message %></td>
-          <td><%= link_to 'Destroy', message, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
+          <td>
+            <% if current_user and current_user.id == message.sender_id %>
+              <%= link_to 'Delete', message, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     <% end %>
@@ -32,7 +43,7 @@
 
 <br>
 
-<% if @messages != nil %>
-  <%= link_to 'New Message', new_message_path %>
+<% if current_user %>
+  <%= link_to 'Send Message', new_message_path %>
 <% end %>
 <%= link_to 'Back', posts_path %>

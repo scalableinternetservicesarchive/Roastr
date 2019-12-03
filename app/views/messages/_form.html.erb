@@ -12,8 +12,7 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :receiver_id %>
-    <%= form.text_field :receiver_id %>
+    <%= form.collection_select :receiver_id, users, :id, :username %>
   </div>
 
   <div class="field">

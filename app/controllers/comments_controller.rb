@@ -52,6 +52,13 @@ class CommentsController < ApplicationController
   # PATCH/PUT /comments/1
   # PATCH/PUT /comments/1.json
   def update
+    if current_user == nil or current_user.id != @comment.user_id
+      respond_to do |format|
+          format.html { redirect_to posts_url, notice: 'You do not have the proper permissions to edit that comment.' }
+          format.json { render json: {'error' => 'You do not have the proper permissions to edit that comment.'} }
+      end
+      return
+    end
     respond_to do |format|
       if @comment.update(comment_params)
         format.html { redirect_to post_path(@comment.post_id), notice: 'Comment was successfully updated.' }
@@ -66,6 +73,13 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   # DELETE /comments/1.json
   def destroy
+    if current_user == nil or current_user.id != @comment.user_id
+      respond_to do |format|
+          format.html { redirect_to posts_url, notice: 'You do not have the proper permissions to delete that comment.' }
+          format.json { render json: {'error' => 'You do not have the proper permissions to delete that comment.'} }
+      end
+      return
+    end
     @comment.destroy
     redirect_to post_path(@comment.post_id)
 
