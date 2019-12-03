@@ -15,7 +15,7 @@ class PostsController < ApplicationController
     else
       @user = nil
     end
-    @comments = Comment.left_outer_joins(:user).select('comments.*, users.username').where(post_id: @post.id)
+    @comments = Comment.left_outer_joins(:user).select('comments.*, users.username').where(post_id: @post.id).order("comments.created_at DESC")
   end
 
   # GET /posts/new
