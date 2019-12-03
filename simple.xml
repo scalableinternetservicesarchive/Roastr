@@ -55,7 +55,7 @@
       </request>
     </session>
 
-    <session name="Read post feed as an authenticated user" probability="30" type="ts_http">
+    <session name="Read post feed as an authenticated user" probability="20" type="ts_http">
       <request>
         <dyn_variable name="authenticity_token"/>
         <http url="/" version="1.1" method="GET"/>
@@ -76,7 +76,7 @@
       </request>
     </session>
 
-    <session name="Create post as an unauthenticated user" probability="25" type="ts_http">
+    <session name="Create post as an unauthenticated user" probability="5" type="ts_http">
       <request>
         <http url="/posts" version="1.1" method="GET"/>
       </request>
@@ -102,7 +102,7 @@
       </request>
     </session>
 
-    <session name="Create post as an authenticated user" probability="25" type="ts_http">
+    <session name="Create post as an authenticated user" probability="5" type="ts_http">
       <request>
         <http url="/posts" version="1.1" method="GET"/>
       </request>
@@ -157,7 +157,7 @@
       </request>
     </session>
 
-    <session name="Commment on a post as an unauthenticated user" probability="15" type="ts_http">
+    <session name="Commment on a post as an unauthenticated user" probability="5" type="ts_http">
       <request>
         <http url="/comments" version="1.1" method="GET"/>
       </request>
@@ -183,7 +183,7 @@
       </request>
     </session>
 
-    <session name="Commment on a post as an authenticated user" probability="15" type="ts_http">
+    <session name="Commment on a post as an authenticated user" probability="5" type="ts_http">
       <request>
         <http url="/comments" version="1.1" method="GET"/>
       </request>
