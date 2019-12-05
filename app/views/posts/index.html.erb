@@ -1,14 +1,10 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Posts</h1>
-
+<%= link_to 'New Post', new_post_path, class: "postNew" %>
 <table>
   <thead>
     <tr>
-      <th>Image</th>
-      <th>Caption</th>
-      <th>User</th>
-      <th colspan="3"></th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
@@ -17,25 +13,30 @@
       <tr>
         <td>
         <% if post.image %>
-          <%= image_tag post.image, alt: "Post Image", class: "postImage" %>
+          <%= image_tag post.image? ? post.image : "placeholder.png", alt: "Post Image", class: "postImage" %>
         <% end %>
         </td>
-        <td><%= post.caption %></td>
+        <td>
+        <div class="postCaption">
+          <%= post.caption %>
+        </div>
+        <br>
+        <!-- Inefficient code right here. Fix later and observe performance difference -->
         <% if post.user_id %>
-          <td><%= link_to post.username, user_path(post.user_id) %></td>
+          Author: <%= link_to post.username, user_path(post.user_id) %>
         <% else %>
-          <td>Anonymous</td>
+          Author: Anonymous
         <% end %>
-        <td><%= link_to 'Show', post %></td>
+        <br>
+        <%= link_to 'Show', post %>
         <% if current_user and current_user.id == post.user_id %>
-          <td><%= link_to 'Edit', edit_post_path(post) %></td>
-          <td><%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <%= link_to 'Edit', edit_post_path(post) %>
+          <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' } %>
         <% end %>
+        </td>
       </tr>
     <% end %>
-    <%= will_paginate @posts %>
   </tbody>
+  <%= will_paginate @posts, class: "postPage" %>
 </table>
-
-<br>
-<%= link_to 'New Post', new_post_path %>
+<%= will_paginate @posts, class: "postPage" %>

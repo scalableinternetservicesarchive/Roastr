@@ -10,18 +10,22 @@
   </head>
 
   <body>
-    <%= link_to 'Posts', posts_path %>
-    <%= link_to 'Users', users_path %>
-    <%= link_to 'Messages', messages_path %>
+    <div class="Header">
+      <h1 class="appHeader">Roastr</h1>
+      <% if current_user %>
+        Logged in as <%= current_user.username %>.
+        <%= link_to 'Log out', logout_path, class: "userHeaderLink" %>
+      <% else %>
+        Not logged in.
+        <%= link_to 'Log in', login_path %>
+        <%= link_to 'Sign up', signup_path %>
+      <% end %>
+    </div>
     <br>
-    <% if current_user %>
-      Logged in as <%= current_user.username %>.
-      <%= link_to 'Log out', logout_path %>
-    <% else %>
-      Not logged in.
-      <%= link_to 'Log in', login_path %>
-      <%= link_to 'Sign up', signup_path %>
-    <% end %>
+    <%= link_to 'Posts', posts_path, class: current_uri !~ /users/ && current_uri !~ /messages/   ? 'linksOn': 'linksTo' %>
+    <%= link_to 'Users', users_path, class: current_uri =~ /users/ ? 'linksOn': 'linksTo' %>
+    <%= link_to 'Messages', messages_path, class: current_uri =~ /messages/ ? 'linksOn': 'linksTo'%>
+    <br><br><br>
     <%= yield %>
   </body>
 </html>

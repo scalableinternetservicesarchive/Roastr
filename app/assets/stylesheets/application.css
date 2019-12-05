@@ -13,3 +13,30 @@
  *= require_tree .
  *= require_self
  */
+.Body {
+    background-color: forestgreen;
+}
+.Header {
+    font-size: large;
+    text-align: center;
+}
+.userHeaderLink {
+    color: dodgerblue;
+}
+.appHeader {
+    text-align: center;
+    color: firebrick;
+}
+.Links {
+    font-size: large;
+    color: dodgerblue;
+}
+.linksOn {
+    font-size: xx-large;
+    color: black;
+    padding: 10px;
+}
+.linksTo {
+    font-size: large;
+    color: dodgerblue;
+}
