@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.left_outer_joins(:user).select('posts.*, users.username').order("posts.created_at DESC")
+    @posts = Post.left_outer_joins(:user).select('posts.*, users.username').paginate(page: params[:page], per_page: 2).order("posts.created_at DESC")
   end
 
   # GET /posts/1
