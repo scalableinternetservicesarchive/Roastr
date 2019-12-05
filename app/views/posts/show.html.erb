@@ -1,19 +1,17 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Image:</strong>
   <% if @post.image %>
-    <%= image_tag @post.image, :alt => "Post Image" %>
+    <%= image_tag @post.image? ? @post.image : 'placeholder.png', :alt => "Post Image", class: 'postshowImage' %>
   <% end %>
 </p>
 
-<p>
-  <strong>Caption:</strong>
+<p class='postCaption'>
   <%= @post.caption %>
 </p>
 
 <p>
-  <strong>User:</strong>
+  <strong>Author:</strong>
   <% if @user %>
     <td><%= link_to @user.username, @user %></td>
   <% else %>

@@ -1,16 +1,15 @@
 <p id="notice"><%= notice %></p>
 
+<h1>
+  <%= @user.username %>
+</h1>
+
 <p>
-  <strong>Profile pic:</strong>
   <% if @user.profile_pic %>
-    <%= image_tag @user.profile_pic, :alt => "Profile Pic" %>
+    <%= image_tag @user.profile_pic? ? @user.profile_pic : 'profileholder.png', :alt => "Profile Pic", class: 'profileshowImage' %>
   <% end %>
 </p>
 
-<p>
-  <strong>Username:</strong>
-  <%= @user.username %>
-</p>
 
 <% if current_user and current_user.id == @user.id %>
   <%= link_to 'Edit', edit_user_path(@user) %> |
@@ -18,24 +17,21 @@
 <% end %>
 
 <h2>Posts</h2>
-
 <table>
   <thead>
     <tr>
-      <th>Image</th>
-      <th>Caption</th>
-      <th colspan="3"></th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @posts.each do |post| %>
       <tr>
-        <td><%= image_tag post.image, :alt => "Post Image" %></td>
-        <td><%= post.caption %></td>
-        <td><%= link_to 'Show', post %></td>
-        <td><%= link_to 'Edit', edit_post_path(post) %></td>
-        <td><%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= image_tag post.image? ? post.image : 'placeholder.png', :alt => "Post Image", class: 'postImage' %></td>
+        <td><div class='postCaption'><%= post.caption %></div> <br>
+        <%= link_to 'Show', post %> <br>
+        <%= link_to 'Edit', edit_post_path(post) %> <br>
+        <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
