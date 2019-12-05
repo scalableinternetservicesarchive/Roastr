@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
   # GET /messages.json
   def index
     if current_user
-      @messages = Message.where(sender_id: session[:user_id]).or(Message.where(receiver_id: session[:user_id]))
+      @messages = Message.joins(:user1).joins('INNER JOIN "users" as "users2" ON "users2"."id" = "messages"."receiver_id"').select('messages.*, users.username AS sender_username, users2.username AS receiver_username').where('sender_id = ? OR receiver_id = ?', session[:user_id], session[:user_id])
     end
   end
 
