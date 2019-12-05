@@ -4,7 +4,11 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
+<<<<<<< HEAD
     @posts = Post.left_outer_joins(:user).select('posts.*, users.username').paginate(page: params[:page], per_page: 2).order("posts.created_at DESC")
+=======
+    @posts = Post.left_outer_joins(:user).select('posts.*, users.username').order("posts.created_at DESC")
+>>>>>>> Added SQL optimizations to get usernames for a large amount of posts, comments, and messages through JOIN statements instead of individual queries
   end
 
   # GET /posts/1
