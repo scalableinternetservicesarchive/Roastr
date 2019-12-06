@@ -17,19 +17,22 @@
       <tr>
         <td>
         <% if post.image %>
-          <%= image_tag post.image, :alt => "Post Image" %>
+          <%= image_tag post.image, alt: "Post Image", class: "postImage" %>
         <% end %>
         </td>
         <td><%= post.caption %></td>
-        <!-- Inefficient code right here. Fix later and observe performance difference -->
-        <% if post.username %>
-          <td><%= link_to post.username, user_path(post.user_id) %></td>
+        <% if post.user_id %>
+          <!-- Inefficient code right here. Fix later and observe performance difference -->
+          <% user = User.find post.user_id %>
+          <td><%= link_to user.username, user %></td>
         <% else %>
           <td>Anonymous</td>
         <% end %>
         <td><%= link_to 'Show', post %></td>
-        <td><%= link_to 'Edit', edit_post_path(post) %></td>
-        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if current_user and current_user.id == post.user_id %>
+          <td><%= link_to 'Edit', edit_post_path(post) %></td>
+          <td><%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
@@ -37,5 +40,3 @@
 
 <br>
 <%= link_to 'New Post', new_post_path %>
-<%= link_to 'Messages', messages_path %>
-

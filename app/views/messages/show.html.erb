@@ -2,12 +2,12 @@
 
 <p>
   <strong>Sender:</strong>
-  <%= @message.sender_id %>
+  <%= link_to @sender.username, @sender %>
 </p>
 
 <p>
   <strong>Receiver:</strong>
-  <%= @message.receiver_id %>
+  <%= link_to @receiver.username, @receiver %>
 </p>
 
 <p>
@@ -15,4 +15,8 @@
   <%= @message.body %>
 </p>
 
+<% if current_user and current_user.id == @message.sender_id %>
+  <td><%= link_to 'Delete', @message, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  <br>
+<% end %>
 <%= link_to 'Back', messages_path %>

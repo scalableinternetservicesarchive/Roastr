@@ -68,7 +68,7 @@
       </setdynvars>
 
       <request subst="true">
-        <http url="/sessions" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;username=testuser&amp;password=password"/>
+        <http url="/sessions" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;username=testuser2&amp;password=testpass2"/>
       </request>
 
       <request>
@@ -118,7 +118,7 @@
 
       <!-- Session started for user. -->
       <request subst="true">
-        <http url="/sessions" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;username=testuser&amp;password=password"/>
+        <http url="/sessions" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;username=testuser&amp;password=testpass"/>
       </request>
 
       <!-- <thinktime random="true" value="2"/> -->
@@ -130,6 +130,41 @@
 
       <request subst="true">
         <http url="/posts/%%_created_post_id%%"/>
+      </request>
+    </session>
+
+    <session name="Edit a post as an authenticated user" probability="5" type="ts_http">
+      <request>
+        <dyn_variable name="authenticity_token"/>
+        <http url="/posts" version="1.1" method="GET"/>
+      </request>
+
+      <setdynvars sourcetype="eval" code="fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(authenticity_token,DynVars),re:replace(Val,&quot;[+]&quot;,&quot;%2B&quot;,[global, {return,list}]) end.">
+        <var name="authenticity_token"/>
+      </setdynvars>
+
+      <!-- Session started for user. -->
+      <request subst="true">
+        <http url="/sessions" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;username=testuser&amp;password=testpass"/>
+      </request>
+
+      <request>
+        <http url="/users/1" version="1.1" method="GET"/>
+      </request>
+
+      <request>
+        <http url="/posts/1/edit" version="1.1" method="GET"/>
+      </request>
+
+      <thinktime random="true" value="2"/>
+
+      <request subst="true">
+        <dyn_variable name="edited_post_id" re="Location: http://.*/posts/(.*)\r"/>
+        <http url="/posts/1" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;post%5Bcaption%5D=updated+caption+post+2"/>
+      </request>
+
+      <request subst="true">
+        <http url="/posts/%%_edited_post_id%%"/>
       </request>
     </session>
 
@@ -146,6 +181,10 @@
       <setdynvars sourcetype="eval" code="fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(authenticity_token,DynVars),re:replace(Val,&quot;[+]&quot;,&quot;%2B&quot;,[global, {return,list}]) end.">
         <var name="authenticity_token"/>
       </setdynvars>
+
+      <request subst="true">
+        <http url="/sessions" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;username=testuser&amp;password=password"/>
+      </request>
 
       <request subst="true">
         <dyn_variable name="created_message_id" re="Location: http://.*/messages/(.*)\r"/>
@@ -173,9 +212,9 @@
 
       <thinktime random="true" value="2"/>
 
- <request subst="true">
+     <request subst="true">
         <dyn_variable name="created_comment_id" re="Location: http://.*/comments/(.*)\r"/>
-	<http url="/comments" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;comment%5Bpost_id%5D=1&amp;comment%5Bcomment%5D=testing_comment"/>
+	      <http url="/comments" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;comment%5Bpost_id%5D=1&amp;comment%5Bcomment%5D=testing_comment"/>
      </request>
 
      <request>
@@ -205,15 +244,54 @@
 
       <thinktime random="true" value="2"/>
 
- <request subst="true">
+      <request subst="true">
         <dyn_variable name="created_comment_id" re="Location: http://.*/comments/(.*)\r"/>
-  <http url="/comments" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;comment%5Buser_id%5D=testuser&amp;comment%5Bpost_id%5D=1&amp;comment%5Bcomment%5D=testing_comment"/>
+        <http url="/comments" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;comment%5Buser_id%5D=testuser&amp;comment%5Bpost_id%5D=1&amp;comment%5Bcomment%5D=testing_comment"/>
      </request>
 
      <request>
        <dyn_variable name="authenticity_token"/>
        <http url="/posts/1" version="1.1" method="GET"/>
      </request>
+    </session>
+
+    <session name="Edit a comment as an authenticated user" probability="5" type="ts_http">
+      <request>
+        <dyn_variable name="authenticity_token"/>
+        <http url="/" version="1.1" method="GET"/>
+      </request>
+
+      <setdynvars sourcetype="eval" code="fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(authenticity_token,DynVars),re:replace(Val,&quot;[+]&quot;,&quot;%2B&quot;,[global, {return,list}]) end.">
+        <var name="authenticity_token"/>
+      </setdynvars>
+
+      <!-- Session started for user. -->
+      <request subst="true">
+        <http url="/sessions" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;username=testuser2&amp;password=testpass2"/>
+      </request>
+
+      <request>
+        <http url="/users/2" version="1.1" method="GET"/>
+      </request>
+
+      <request>
+        <http url="/comments" version="1.1" method="GET"/>
+      </request>
+
+      <request>
+        <http url="/comments/1/edit" version="1.1" method="GET"/>
+      </request>
+
+      <thinktime random="true" value="2"/>
+
+      <request subst="true">
+        <dyn_variable name="post_id" re="Location: http://.*/posts/(.*)\r"/>
+        <http url="/comments/1" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;comment%5Bcomment%5D=updated+comment+post+1"/>
+      </request>
+
+      <request subst="true">
+        <http url="/post/%%_post_id%%"/>
+      </request>
     </session>
 
     <session name="New user sign up" probability="5" type="ts_http">
