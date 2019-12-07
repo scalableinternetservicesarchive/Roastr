@@ -20,12 +20,10 @@
       <% @messages.each do |message| %>
         <tr>
           <td>
-            <% sender = User.find(message.sender_id) %>
-            <%= link_to sender.username, sender %>
+            <%= link_to message.sender_username, user_path(message.sender_id) %>
           </td>
           <td>
-            <% receiver = User.find(message.receiver_id) %>
-            <%= link_to receiver.username, receiver %>
+            <%= link_to message.receiver_username, user_path(message.receiver_id) %>
           </td>
           <td><%= message.body %></td>
           <td><%= link_to 'Show', message %></td>
