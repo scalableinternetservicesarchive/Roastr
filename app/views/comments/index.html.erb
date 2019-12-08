@@ -1,34 +1,40 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Your Comments</h1>
+<% if current_user == nil %>
+  <p>Please log in to view your comments</p>
+<% else %>
 
-<table>
-  <thead>
-    <tr>
-      <th>User</th>
-      <th>Post</th>
-      <th>Comment</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+  <h1>Your Comments</h1>
 
-  <tbody>
-    <% if @comments != nil %>
-      <% @comments.each do |comment| %>
-        <tr>
-          <% if current_user %>
-            <td><%= link_to current_user.username, current_user %></td>
-          <% else %>
-            <td>Anonymous</td>
-          <% end %>
-          <td><%= comment.post_id %></td>
-          <td><%= comment.comment %></td>
-          <td><%= link_to 'Show', post_path(comment.post_id) %></td>
-          <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
-        </tr>
+  <table>
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Post</th>
+        <th>Comment</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% if @comments != nil %>
+        <% @comments.each do |comment| %>
+          <tr>
+            <% if current_user %>
+              <td><%= link_to current_user.username, current_user %></td>
+            <% else %>
+              <td>Anonymous</td>
+            <% end %>
+            <td><%= comment.post_id %></td>
+            <td><%= comment.comment %></td>
+            <td><%= link_to 'Show', post_path(comment.post_id) %></td>
+            <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
+          </tr>
+        <% end %>
       <% end %>
-    <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+
+<% end %>
 
 <br>

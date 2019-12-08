@@ -41,5 +41,7 @@
   </tbody>
 </table>
 
-<h2>Comments</h2>
-<%= link_to 'Your Comments Page', comments_path %>
+<% if current_user and current_user.id == @user.id %>
+  <h2>Comments</h2>
+  <%= link_to 'Your Comments Page', comments_path %>
+<% end %>

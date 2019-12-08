@@ -1,8 +1,7 @@
 <% @comments.each do |comment| %>
     <p>
     <% if comment.user_id %>
-      <% user = User.find comment.user_id %>
-      <b><%= link_to user.username, user %></b>
+      <b><%= link_to comment.username, user_path(comment.user_id) %></b>
     <% else %>
       <b>Anonymous</b>
     <% end %>: <%= comment.comment %>

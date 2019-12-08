@@ -22,9 +22,7 @@
         </td>
         <td><%= post.caption %></td>
         <% if post.user_id %>
-          <!-- Inefficient code right here. Fix later and observe performance difference -->
-          <% user = User.find post.user_id %>
-          <td><%= link_to user.username, user %></td>
+          <td><%= link_to post.username, user_path(post.user_id) %></td>
         <% else %>
           <td>Anonymous</td>
         <% end %>
@@ -35,6 +33,7 @@
         <% end %>
       </tr>
     <% end %>
+    <%= will_paginate @posts %>
   </tbody>
 </table>
 
