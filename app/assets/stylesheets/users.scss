@@ -3,6 +3,25 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .profilePicture {
-	max-height: 100px;
-	max-width: 200px;
+	width: 200px;
+	max-height: 200px;
+	object-fit: cover;
+}
+
+.profileName {
+	font-size: large;
+}
+
+.profilePage {
+	position: relative;
+	bottom: 0;
+	text-align: center;
+	width: 95%;
+	font-size: x-large;
+	margin-bottom: 35px;
+	margin-top: 35px;
+}
+
+.profileshowImage {
+	width: 500px;
 }
