@@ -7,7 +7,7 @@
   </clients>
 
   <servers>
-    <server host="Ryan.nscn823fdv.us-west-2.elasticbeanstalk.com" port="80" type="tcp"/>
+    <server host="btest.qt8ymkzsu9.us-west-2.elasticbeanstalk.com" port="80" type="tcp"/>
   </servers>
 
   <load>
@@ -18,13 +18,9 @@
     <arrivalphase phase="2" duration="10" unit="second">
       <users arrivalrate="16" unit="second"/>
     </arrivalphase>
-    
+  
     <arrivalphase phase="3" duration="10" unit="second">
       <users arrivalrate="64" unit="second"/>
-    </arrivalphase>
-
-    <arrivalphase phase="4" duration="10" unit="second">
-      <users arrivalrate="128" unit="second"/>
     </arrivalphase>
   </load>
 
@@ -37,36 +33,36 @@
   </options>
 
   <sessions>
-    <session name="Commment on a post" probability="100" type="ts_http">
-      <request>
-        <http url="/comments" version="1.1" method="GET"/>
-      </request>
-
+    <session name="New user sign up" probability="100" type="ts_http">
       <request>
         <dyn_variable name="authenticity_token"/>
-        <http url="/comments/new" version="1.1" method="GET"/>
+        <http url="/signup" version="1.1" method="GET"/>
       </request>
+
+      <thinktime random="true" value="2"/>
 
       <setdynvars sourcetype="eval" code="fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(authenticity_token,DynVars),re:replace(Val,&quot;[+]&quot;,&quot;%2B&quot;,[global, {return,list}]) end.">
         <var name="authenticity_token"/>
       </setdynvars>
 
+      <setdynvars sourcetype="random_string" length="10">
+        <var name="rnd_user" />
+      </setdynvars>
+
+      <setdynvars sourcetype="random_string" length="10">
+        <var name="rnd_pass" />
+      </setdynvars>
+
       <thinktime random="true" value="2"/>
 
       <request subst="true">
-        <dyn_variable name="created_comment_id" re="Location: http://.*/comments/(.*)\r"/>
-      <http url="/comments" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;comment%5Buser_id%5D=testuser&amp;comment%5Bpost_id%5D=1&amp;comment%5Bcomment%5D=testing_comment"/>
+        <dyn_variable name="created_user_id" re="Location: http://.*/users/(.*)\r"/>
+        <http url="/users" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;user%5Bprofile_pic%5D=https%3A%2F%2Fih0.redbubble.net%2Fimage.425051630.0008%2Fflat%2C750x%2C075%2Cf-pad%2C750x1000%2Cf8f8f8.u3.jpg&amp;user%5Busername%5D=%%_rnd_user%%&amp;user%5Bpassword%5D=%%_rnd_pass%%"/>
       </request>
 
       <request subst="true">
-        <http url="/comments/%%_created_comment_id%%"/>
-        <http url="/comments" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_tok[[-P[p??????????????_{[[[[[en%%&amp;comment%5Bpost_id%5D=1&amp;comment%5Bcomment%5D=testing_comment"/>
-      </request>
-
-      <request>
-       <dyn_variable name="authenticity_token"/>
-       <http url="/posts/1" version="1.1" method="GET"/>
+        <http url="/users/%%_created_user_id%%"/>
       </request>
     </session>
-  </sessions>
+ </sessions>
 </tsung>

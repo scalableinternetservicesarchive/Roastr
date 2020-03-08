@@ -7,7 +7,7 @@
   </clients>
 
   <servers>
-    <server host="Ryan.nscn823fdv.us-west-2.elasticbeanstalk.com" port="80" type="tcp"/>
+    <server host="btest.qt8ymkzsu9.us-west-2.elasticbeanstalk.com" port="80" type="tcp"/>
   </servers>
 
   <load>
@@ -18,14 +18,16 @@
     <arrivalphase phase="2" duration="10" unit="second">
       <users arrivalrate="16" unit="second"/>
     </arrivalphase>
-    
+  
     <arrivalphase phase="3" duration="10" unit="second">
-      <users arrivalrate="64" unit="second"/>
+      <users arrivalrate="32" unit="second"/>
     </arrivalphase>
-
+<!--
     <arrivalphase phase="4" duration="10" unit="second">
       <users arrivalrate="128" unit="second"/>
     </arrivalphase>
+
+--> 
   </load>
 
   <options>
@@ -37,35 +39,42 @@
   </options>
 
   <sessions>
-    <session name="Commment on a post" probability="100" type="ts_http">
+    <session name="Send message" probability="100" type="ts_http">
       <request>
-        <http url="/comments" version="1.1" method="GET"/>
+        <http url="/messages" version="1.1" method="GET"/>
       </request>
 
       <request>
         <dyn_variable name="authenticity_token"/>
-        <http url="/comments/new" version="1.1" method="GET"/>
+        <http url="/login" version="1.1" method="GET" />
       </request>
 
       <setdynvars sourcetype="eval" code="fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(authenticity_token,DynVars),re:replace(Val,&quot;[+]&quot;,&quot;%2B&quot;,[global, {return,list}]) end.">
         <var name="authenticity_token"/>
       </setdynvars>
 
-      <thinktime random="true" value="2"/>
-
       <request subst="true">
-        <dyn_variable name="created_comment_id" re="Location: http://.*/comments/(.*)\r"/>
-      <http url="/comments" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;comment%5Buser_id%5D=testuser&amp;comment%5Bpost_id%5D=1&amp;comment%5Bcomment%5D=testing_comment"/>
-      </request>
-
-      <request subst="true">
-        <http url="/comments/%%_created_comment_id%%"/>
-        <http url="/comments" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_tok[[-P[p??????????????_{[[[[[en%%&amp;comment%5Bpost_id%5D=1&amp;comment%5Bcomment%5D=testing_comment"/>
+        <http url="/sessions" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;username=testuser&amp;password=testpass"/>
       </request>
 
       <request>
-       <dyn_variable name="authenticity_token"/>
-       <http url="/posts/1" version="1.1" method="GET"/>
+        <dyn_variable name="authenticity_token"/>
+        <http url="/messages/new" version="1.1" method="GET" />
+      </request>
+
+      <setdynvars sourcetype="eval" code="fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(authenticity_token,DynVars),re:replace(Val,&quot;[+]&quot;,&quot;%2B&quot;,[global, {return,list}]) end.">
+        <var name="authenticity_token"/>
+      </setdynvars>
+ 
+      <thinktime random="true" value="2"/>
+
+      <request subst="true">
+        <dyn_variable name="created_message_id" re="Location: http://.*/messages/(.*)\r"/>
+        <http url="/messages" version="1.1" method="POST" contents="authenticity_token=%%_authenticity_token%%&amp;message%5Breceiver_id%5D=2&amp;message%5Bbody%5D=whatup"/>
+      </request>
+
+      <request subst="true">
+        <http url="/messages/%%_created_message_id%%"/>
       </request>
     </session>
   </sessions>
